@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,21 +11,21 @@ import static org.junit.jupiter.api.Assertions.*;
  * 3. Agrego 2 o más libros diferentes y los contiene - DONE
  * 4. Agrego más de 1 ejemplar al mismo y los contiene - DONE - Libro y cantidad de veces
  * 5. Agrego un libro más de una vez y los contiene - DONE - Libros por separado
- * 6. No puedo agregar libros que no pertenecen a la editorial - IN PROGRESS
- * 7. Sólo puedo agregar cantidades estrictamente positivas de libros
+ * 6. No puedo agregar libros que no pertenecen a la editorial - DONE
+ * 7. Sólo puedo agregar cantidades estrictamente positivas de libros - DONE
  **/
 
-public class BookstoreTest {
+public class ShoppingCartTest {
 
     @Test
     void emptyShoppingCartTest() {
-        assertTrue(new ShoppingCart(bookCatalog()).isEmpty());
+        assertTrue(new ShoppingCart(ShoppingCartStubs.bookCatalog()).isEmpty());
     }
 
     @Test
     void addBookTest() {
-        ShoppingCart shoppingCart = new ShoppingCart(bookCatalog());
-        Book leguas = BookFactory.newBookWithBluebeeEditorial("1", "2000 Leguas");
+        ShoppingCart shoppingCart = new ShoppingCart(ShoppingCartStubs.bookCatalog());
+        Book leguas = BookFactory.newBookWithBluebeeEditorial("1", "2000 Leguas", BigDecimal.valueOf(9));
         shoppingCart.add(leguas);
         assertTrue(shoppingCart.containsBook(leguas.getIsbn()));
         assertFalse(shoppingCart.isEmpty());
@@ -33,9 +33,9 @@ public class BookstoreTest {
 
     @Test
     void addTwoDifferentBookTest() {
-        ShoppingCart shoppingCart = new ShoppingCart(bookCatalog());
-        shoppingCart.add(BookFactory.newBookWithRedbeeEditorial("1", "2000 Leguas"));
-        shoppingCart.add(BookFactory.newBookWithBluebeeEditorial("2", "Dr. Jekyll & Mr. Hyde"));
+        ShoppingCart shoppingCart = new ShoppingCart(ShoppingCartStubs.bookCatalog());
+        shoppingCart.add(BookFactory.newBookWithRedbeeEditorial("1", "2000 Leguas", BigDecimal.valueOf(9)));
+        shoppingCart.add(BookFactory.newBookWithBluebeeEditorial("2", "Dr. Jekyll & Mr. Hyde", BigDecimal.valueOf(11)));
         assertFalse(shoppingCart.isEmpty());
         assertTrue(shoppingCart.containsBook("1"));
         assertTrue(shoppingCart.containsBook("2"));
@@ -44,8 +44,8 @@ public class BookstoreTest {
 
     @Test
     void addMoreThanOneBook() {
-        ShoppingCart shoppingCart = new ShoppingCart(bookCatalog());
-        Book book = BookFactory.newBookWithRedbeeEditorial("1", "2000 Leguas");
+        ShoppingCart shoppingCart = new ShoppingCart(ShoppingCartStubs.bookCatalog());
+        Book book = BookFactory.newBookWithRedbeeEditorial("1", "2000 Leguas", BigDecimal.valueOf(9));
         shoppingCart.addWithQuantity(book, 2);
         assertTrue(shoppingCart.containsBook("1"));
         assertEquals(2, shoppingCart.getCopyQuantity(book.getIsbn()));
@@ -53,8 +53,8 @@ public class BookstoreTest {
 
     @Test
     void addTwoSameCopyBookTest() {
-        ShoppingCart shoppingCart = new ShoppingCart(bookCatalog());
-        Book book = BookFactory.newBookWithRedbeeEditorial("1", "2000 Leguas");
+        ShoppingCart shoppingCart = new ShoppingCart(ShoppingCartStubs.bookCatalog());
+        Book book = BookFactory.newBookWithRedbeeEditorial("1", "2000 Leguas", BigDecimal.valueOf(9));
         shoppingCart.add(book);
         shoppingCart.add(book);
         assertFalse(shoppingCart.isEmpty());
@@ -65,8 +65,8 @@ public class BookstoreTest {
 
     @Test
     void cantAddBooksOfCertainEditorial() {
-        ShoppingCart shoppingCart = new ShoppingCart(bookCatalog());
-        Book book = new Book("1", "Gay Mostron", "greenbee");
+        ShoppingCart shoppingCart = new ShoppingCart(ShoppingCartStubs.bookCatalog());
+        Book book = new Book("1", "Gay Mostron", "greenbee", BigDecimal.valueOf(10));
         assertThrows(RuntimeException.class, () ->
                 shoppingCart.add(book)
         );
@@ -74,20 +74,12 @@ public class BookstoreTest {
 
     @Test
     void cantAddNegativeQuantityOfBooks() {
-        ShoppingCart shoppingCart = new ShoppingCart(bookCatalog());
-        Book book = BookFactory.newBookWithRedbeeEditorial("1", "2000 Leguas");
+        ShoppingCart shoppingCart = new ShoppingCart(ShoppingCartStubs.bookCatalog());
+        Book book = BookFactory.newBookWithRedbeeEditorial("1", "2000 Leguas", BigDecimal.valueOf(9));
         assertThrows(RuntimeException.class, () ->
                 shoppingCart.addWithQuantity(book, -1)
         );
     }
 
-    private List<Book> bookCatalog() {
-        Book bookOne = BookFactory.newBookWithRedbeeEditorial("1", "Dr. Jekyll & Mr. Hyde");
-        Book bookTwo = BookFactory.newBookWithRedbeeEditorial("2", "Señor de los anillos");
-        Book bookThree = BookFactory.newBookWithRedbeeEditorial("3", "Harry Potter 1");
-        Book bookFour = BookFactory.newBookWithBluebeeEditorial("4", "El Principito");
-        Book bookFive = BookFactory.newBookWithBluebeeEditorial("5", "Todo es posible gracias a la familia");
-        return List.of(bookOne, bookTwo, bookThree, bookFour, bookFive);
-    }
 
 }

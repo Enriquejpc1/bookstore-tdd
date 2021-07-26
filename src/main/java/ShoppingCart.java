@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,4 +55,11 @@ public class ShoppingCart {
         }
     }
 
+    public BigDecimal calculateTotalAmount() {
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        for (Stock book : shoppingCart.values()) {
+            totalAmount.add(book.getBook().getPrice().multiply(BigDecimal.valueOf(book.getQuantity())));
+        }
+        return totalAmount;
+    }
 }
