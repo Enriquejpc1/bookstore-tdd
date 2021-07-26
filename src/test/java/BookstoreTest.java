@@ -1,7 +1,8 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -24,14 +25,17 @@ public class BookstoreTest {
 
     @Test
     void addBookTest() {
-        assertEquals("OK", new ShoppingCart().add("20000 Leguas"));
+        ShoppingCart shoppingCart = new ShoppingCart();
+        assertEquals("OK", shoppingCart.add("20000 Leguas"));
+        assertFalse(shoppingCart.isEmpty());
     }
 
     @Test
     void addTwoDifferentBookTest() {
-        assertEquals("OK", new ShoppingCart().add("20000 Leguas"));
-        assertEquals("OK", new ShoppingCart().add("Dr. Jekyll & Mr. Hyde"));
+        ShoppingCart shoppingCart = new ShoppingCart();
+        assertEquals("OK", shoppingCart.add("20000 Leguas"));
+        assertEquals("OK", shoppingCart.add("Dr. Jekyll & Mr. Hyde"));
+        assertFalse(shoppingCart.isEmpty());
     }
-
 
 }
