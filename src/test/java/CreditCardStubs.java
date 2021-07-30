@@ -1,4 +1,5 @@
 
+import java.math.BigDecimal;
 import java.time.YearMonth;
 
 public class CreditCardStubs {
@@ -9,6 +10,7 @@ public class CreditCardStubs {
             .number("1234554546")
             .cardHolder("Elsa Bueso")
             .expirationDate(yearMonth.plusMonths(1l))
+            .availableAmount(BigDecimal.TEN)
             .build();
     }
 
@@ -17,6 +19,7 @@ public class CreditCardStubs {
             .number("1234554546")
             .cardHolder("Elsa Bueso")
             .expirationDate(yearMonth.minusMonths(1l))
+            .availableAmount(BigDecimal.ONE)
             .build();
     }
 }

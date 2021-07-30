@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ShoppingCart {
-    //agregar catalogo de libros.
     private final List<String> validEditorial = List.of("redbee", "bluebee");
     private Map<String, Stock> shoppingCart = new HashMap<>();
     private List<Book> catalog;

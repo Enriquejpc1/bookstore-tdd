@@ -1,9 +1,9 @@
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
+import lombok.With;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.time.YearMonth;
 
 @Data
@@ -13,6 +13,10 @@ public class CreditCard {
     private String number;
     private YearMonth expirationDate;
     private String cardHolder;
+    private BigDecimal availableAmount;
+    @With
+    private boolean isStolen;
+
 
 
 }
