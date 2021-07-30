@@ -6,6 +6,7 @@ public class Cashier {
     private ShoppingCart shoppingCart;
     private CreditCard creditCard;
     private MerchantProcessor merchantProcessor;
+    private boolean hasCheckedOut;
 
     public Cashier(ShoppingCart shoppingCart, CreditCard creditCard, MerchantProcessor merchantProcessor) {
         this.shoppingCart = shoppingCart;
@@ -35,10 +36,22 @@ public class Cashier {
         }
     }
 
+    private void assertCartHasNotCheckedout() {
+        if (hasCheckedOut) {
+            throw new RuntimeException(("Solo puede hacer checkout una vez."));
+        }
+    }
+
     public BigDecimal checkOut() {
-        BigDecimal grandTotal = shoppingCart.calculateTotalAmount();
-        merchantProcessor.debit(grandTotal, creditCard);
-        return grandTotal;
+        assertCartHasNotCheckedout();
+        try {
+            BigDecimal grandTotal = shoppingCart.calculateTotalAmount();
+            merchantProcessor.debit(grandTotal, creditCard);
+            return grandTotal;
+        } finally {
+            hasCheckedOut = true;
+        }
+
     }
 
 }

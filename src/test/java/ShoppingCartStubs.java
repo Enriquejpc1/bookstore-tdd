@@ -13,6 +13,12 @@ public class ShoppingCartStubs {
 
     public static ShoppingCart getValidshoppingcart() {
         ShoppingCart shoppingCart = new ShoppingCart(ShoppingCartStubs.bookCatalog());
+        shoppingCart.add(BookFactory.newBookWithRedbeeEditorial("1", "Dr. Jekyll & Mr. Hyde", BigDecimal.valueOf(11)));
+        return shoppingCart;
+    }
+
+    public static ShoppingCart getValidshoppingcartWithLittlePrince() {
+        ShoppingCart shoppingCart = new ShoppingCart(ShoppingCartStubs.bookCatalog());
         shoppingCart.add(BookFactory.newBookWithRedbeeEditorial("4", "El Principito", BigDecimal.valueOf(5)));
         return shoppingCart;
     }

@@ -2,14 +2,24 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ShoppingCart {
     private final List<String> validEditorial = List.of("redbee", "bluebee");
     private Map<String, Stock> shoppingCart = new HashMap<>();
     private List<Book> catalog;
+    private UUID idCart;
+
+    public UUID getIdCart() {
+        return idCart;
+    }
+    public  ShoppingCart(){
+        this.idCart = generateCartUUID();
+    }
 
     public ShoppingCart(List<Book> catalog) {
         this.catalog = catalog;
+        this.idCart = generateCartUUID();
     }
 
     public Boolean isEmpty() {
@@ -53,11 +63,14 @@ public class ShoppingCart {
             throw new RuntimeException("Cantidad invalida");
         }
     }
+    private UUID generateCartUUID() {
+        return UUID.randomUUID();
+    }
 
     public BigDecimal calculateTotalAmount() {
-        BigDecimal totalAmount = BigDecimal.ZERO;
+        BigDecimal totalAmount = new BigDecimal(0);
         for (Stock book : shoppingCart.values()) {
-            totalAmount.add(book.getBook().getPrice().multiply(BigDecimal.valueOf(book.getQuantity())));
+            totalAmount = totalAmount.add(book.getBook().getPrice().multiply(BigDecimal.valueOf(book.getQuantity())));
         }
         return totalAmount;
     }

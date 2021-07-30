@@ -10,7 +10,7 @@ public class CreditCardStubs {
             .number("1234554546")
             .cardHolder("Elsa Bueso")
             .expirationDate(yearMonth.plusMonths(1l))
-            .availableAmount(BigDecimal.TEN)
+            .availableAmount(BigDecimal.valueOf(10))
             .build();
     }
 
